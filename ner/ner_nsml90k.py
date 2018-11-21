@@ -74,6 +74,9 @@ class NerNsml90kSubword(Text2TextProblem):
         data_path = os.path.join(tmp_dir, dataset_filename)
         return text2text_txt_conll_iterator(data_path)
 
+    def dataset_filename(self):
+        return 'ner_nsml90k_train_data'
+
     @property
     def vocab_type(self):
         """What kind of vocabulary to use.
