@@ -287,7 +287,7 @@ def text2text_txt_conll_iterator(txt_path):
         if not line:
             inputs = ' '.join(sentence[0])
             targets = ' '.join(sentence[1])
-            yield {"inputs": inputs.strip(), "targets": targets.strip(), "decode_length": 0}
+            yield {"inputs": inputs.strip(), "targets": targets.strip()}
             sentence = [[], []]
         else:
             parts = line.split("\t", 2)
