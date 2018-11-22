@@ -213,8 +213,7 @@ class NerNsml90kSubword(Text2TextProblem):
     def eval_metrics(self):
         return [
             metrics.Metrics.ACC, metrics.Metrics.ACC_TOP5,
-            metrics.Metrics.ACC_PER_SEQ, metrics.Metrics.NEG_LOG_PERPLEXITY,
-            metrics.Metrics.APPROX_BLEU
+            metrics.Metrics.SET_PRECISION, metrics.Metrics.SET_RECALL
         ]
 
 
