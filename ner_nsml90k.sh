@@ -34,21 +34,21 @@ t2t-trainer \
   --output_dir=$TRAIN_DIR \
   --hparams='batch_size=1500'
 
-# # Decode
-# DECODE_TO_FILE=$TRAIN_DIR/decode/test  # 디코딩 출력파일 이름의 prefix
+# Decode
+DECODE_TO_FILE=$TRAIN_DIR/decode/test  # 디코딩 출력파일 이름의 prefix
 
-# BEAM_SIZE=4
-# ALPHA=0.6
+BEAM_SIZE=4
+ALPHA=0.6
 
-# export CUDA_VISIBLE_DEVICES=0  # GPU IDs to be used
+export CUDA_VISIBLE_DEVICES=0  # GPU IDs to be used
 
-# t2t-decoder \
-#   --t2t_usr_dir=$USR_DIR \
-#   --data_dir=$DATA_DIR \
-#   --problem=$PROBLEM \
-#   --model=$MODEL \
-#   --hparams_set=$HPARAMS \
-#   --output_dir=$TRAIN_DIR \
-#   --decode_hparams="beam_size=$BEAM_SIZE,alpha=$ALPHA" \
-#   --eval_use_test_set=True \
-#   --decode_to_file=$DECODE_TO_FILE
+t2t-decoder \
+  --t2t_usr_dir=$USR_DIR \
+  --data_dir=$DATA_DIR \
+  --problem=$PROBLEM \
+  --model=$MODEL \
+  --hparams_set=$HPARAMS \
+  --output_dir=$TRAIN_DIR \
+  --decode_hparams="beam_size=$BEAM_SIZE,alpha=$ALPHA" \
+  --eval_use_test_set=True \
+  --decode_to_file=$DECODE_TO_FILE
