@@ -15,10 +15,7 @@ from tensor2tensor.utils import metrics, registry
 
 @registry.register_problem
 class NerNsml90kSubword(Text2TextProblem):
-    """ Problem spec for NSML NER with SUBWORD vocab. 
-
-    The data is stored in a file named `ner_nsml90k_subword.pairs`.
-    """
+    """ Problem spec for NSML NER with SUBWORD vocab. """
 
     @property
     def dataset_splits(self):
@@ -28,9 +25,6 @@ class NerNsml90kSubword(Text2TextProblem):
             "shards": 9,
         }, {
             "split": problem.DatasetSplit.EVAL,
-            "shards": 1,
-        }, {
-            "split": problem.DatasetSplit.TEST,
             "shards": 1,
         }]
 
@@ -104,7 +98,7 @@ class NerNsml90kSubword(Text2TextProblem):
     @property
     def approx_vocab_size(self):
         """Approximate vocab size to generate. Only for VocabType.SUBWORD."""
-        return 2**15  # ~32k
+        return 2**12  # ~4k
 
     @property
     def oov_token(self):
@@ -196,7 +190,7 @@ class NerNsml90kSubword(Text2TextProblem):
 
     def hparams(self, defaults, unused_model_hparams):
         p = defaults
-        p.stop_at_eos = int(True)
+        p.stop_at_eos = int(False)
 
         source_vocab_size = self._encoders["inputs"].vocab_size
         p.input_modality = {
@@ -212,6 +206,46 @@ class NerNsml90kSubword(Text2TextProblem):
 
         data_items_to_decoders = None
         return (data_fields, data_items_to_decoders)
+
+    def eval_metrics(self):
+        return [
+            metrics.Metrics.ACC, metrics.Metrics.ACC_TOP5,
+            metrics.Metrics.ACC_PER_SEQ, metrics.Metrics.NEG_LOG_PERPLEXITY,
+            metrics.Metrics.APPROX_BLEU
+        ]
+
+
+@registry.register_problem
+class NerNsml90kSubwordV2(NerNsml90kSubword):
+    @property
+    def dataset_splits(self):
+        """Splits of data to produce and number of output shards for each."""
+        return [{
+            "split": problem.DatasetSplit.TRAIN,
+            "shards": 9,
+        }, {
+            "split": problem.DatasetSplit.EVAL,
+            "shards": 1,
+        }, {
+            "split": problem.DatasetSplit.TEST,
+            "shards": 1,
+        }]
+
+    @property
+    def approx_vocab_size(self):
+        """Approximate vocab size to generate. Only for VocabType.SUBWORD."""
+        return 2**15  # ~32k
+
+    def hparams(self, defaults, unused_model_hparams):
+        p = defaults
+        p.stop_at_eos = int(True)
+
+        source_vocab_size = self._encoders["inputs"].vocab_size
+        p.input_modality = {
+            "inputs": (registry.Modalities.SYMBOL, source_vocab_size)
+        }
+        target_vocab_size = self._encoders["targets"].vocab_size
+        p.target_modality = (registry.Modalities.SYMBOL, target_vocab_size)
 
     def eval_metrics(self):
         return [
