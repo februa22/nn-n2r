@@ -1,9 +1,9 @@
 #!/bin/sh
 
 USR_DIR=ner
-PROBLEM=ner_nsml90k_subword
+PROBLEM=ner_nsml90k_subword_v2
 MODEL=transformer
-HPARAMS=transformer_big
+HPARAMS=transformer_base
 
 DATA_DIR=/data/t2t_data/$PROBLEM
 TMP_DIR=/data/t2t_datagen
@@ -32,7 +32,7 @@ t2t-trainer \
   --hparams_set=$HPARAMS \
   --worker_gpu=$WORKER_GPU \
   --output_dir=$TRAIN_DIR \
-  --hparams='batch_size=1500'
+  --hparams='batch_size=5000'
 
 # Decode
 DECODE_TO_FILE=$TRAIN_DIR/decode/test  # 디코딩 출력파일 이름의 prefix
