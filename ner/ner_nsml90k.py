@@ -101,7 +101,7 @@ class NerNsml90kSubword(Text2TextProblem):
     @property
     def approx_vocab_size(self):
         """Approximate vocab size to generate. Only for VocabType.SUBWORD."""
-        return 2**12  # ~4k
+        return 2**15  # ~32k
 
     @property
     def oov_token(self):
