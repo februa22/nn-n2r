@@ -29,6 +29,9 @@ class NerNsml90kSubword(Text2TextProblem):
         }, {
             "split": problem.DatasetSplit.EVAL,
             "shards": 1,
+        }, {
+            "split": problem.DatasetSplit.TEST,
+            "shards": 1,
         }]
 
     @property
